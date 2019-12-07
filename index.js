@@ -5,8 +5,10 @@ const server = express();
 server.use(express.json());
 
 server.use((req,res,next)=>{
-   res.header('Access-Control-Allow-Origin','*');
-   next(); 
+    res.header('Access-Control-Allow-Origin','*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next(); 
 });
 
 function checkCard(req, res, next) {
@@ -47,10 +49,11 @@ server.post("/cards",(req, res)=>{
     
 });
 
-server.put("/cards/id:",checkCard,(req,res)=>{
+server.put("/cards/:id",checkCard,(req,res)=>{
     const {id} = req.params;
 
-    const card = cards.find(card => card.id == id);
+    const {title,content}=req.body;
+    const card = cards.find(procuraCard => procuraCard.id == id);
 
     if(title){
         card.title = title;
@@ -62,9 +65,12 @@ server.put("/cards/id:",checkCard,(req,res)=>{
 });
 
 server.delete("/cards/:id",checkCard,(req,res)=>{
-    const {id} = req.body;
-    const card = cards.find(card => card.id == id);
-    cards.splice(card, id);
+    const {id} = req.params;
+    
+    const cardIndex = cards.findIndex(card => card.id == id);
+    
+    cards.splice(cardIndex, id);
+    
     res.json(cards);
 });
 
