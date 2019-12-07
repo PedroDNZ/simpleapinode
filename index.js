@@ -8,7 +8,7 @@ server.use((req,res,next)=>{
     res.header('Access-Control-Allow-Origin','*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    console.log(process.env.teste);
+    console.log(process.env.TESTE);
     next(); 
 });
 
@@ -75,4 +75,4 @@ server.delete("/cards/:id",checkCard,(req,res)=>{
     res.json(cards);
 });
 
-server.listen(process.env.port);
+server.listen(process.env.PORT);
